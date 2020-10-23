@@ -6,7 +6,8 @@ on:
 jobs:
   remote_default_branch:
     name: Default branch
-
+    runs-on: ubuntu-latest
+    steps:
       -
         name: Determine remote default branch
         uses: actions/github-script@v3.0.0
