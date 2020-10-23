@@ -19,6 +19,8 @@ jobs:
         name: Prepare
         id: prep
         run: |
+          set -eu -o pipefail
+
           # exclude unreleased in case re-running workflow
           echo "unreleased=false" >> .github_changelog_generator
           # in case we've tagged subsequently ensure consistent run
@@ -31,6 +33,7 @@ jobs:
           # limit list to next tag if any
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || true)
 
+          git branch -a
           # to ensure that releases continue to get 'x commits since release'
           # need to pass the branch name in addition to the tag to the create
           # release. Work out which branch the current tag is on
