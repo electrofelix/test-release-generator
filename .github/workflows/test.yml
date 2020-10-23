@@ -16,5 +16,5 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log(context.repo)
-            console.log(github.repos.get(context.repo.owner, context.repo.repo))
+            console.log(github.repos.get())
 
