@@ -16,6 +16,18 @@ jobs:
         with:
           fetch-depth: 0
       -
+        name: Determine remote default branch
+        uses: actions/github-script@v3.0.0
+        id: remote_default_branch
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            repo = await github.repos.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+            })
+            return repo.data.default_branch
+      -
         name: Prepare
         id: prep
         run: |
@@ -36,11 +48,11 @@ jobs:
           # to ensure that releases continue to get 'x commits since release'
           # need to pass the branch name in addition to the tag to the create
           # release. Work out which branch the current tag is on
-          #
-          if git merge-base --is-ancestor ${{ github.ref }} $(git symbolic-ref --short refs/remotes/origin/FETCH_HEAD)
+          DEFAULT_BRANCH=origin/${{ steps.remote_default_branch.outputs.result }}
+          if git merge-base --is-ancestor ${{ github.ref }} ${DEFAULT_BRANCH}
           then
               # if the tag is in the history of the default remote branch
-              BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD)
+              BRANCH=${DEFAULT_BRANCH}
           else
               # otherwise take the first match and hope for the best
               BRANCH=$(git branch -r --format="%(refname:short)" --contains ${{ github.ref }} | head -n1)
