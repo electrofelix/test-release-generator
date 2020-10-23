@@ -16,7 +16,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log(context.repo)
-            await repo = github.repos.get({
+            repo = await github.repos.get({
               owner: context.repo.owner,
               repo: context.repo.repo
             })
