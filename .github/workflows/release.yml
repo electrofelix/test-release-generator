@@ -35,7 +35,6 @@ jobs:
 
           git branch -a
           echo ${DEFAULT_BRANCH}
-          echo $default-branch
           # to ensure that releases continue to get 'x commits since release'
           # need to pass the branch name in addition to the tag to the create
           # release. Work out which branch the current tag is on
