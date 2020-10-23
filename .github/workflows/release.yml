@@ -38,7 +38,7 @@ jobs:
           # release. Work out which branch the current tag is on
           #
           git fetch origin HEAD
-          if git merge-base --is-ancestor ${{ github.ref }} $(git symbolic-ref --short refs/remotes/origin/HEAD)
+          if git merge-base --is-ancestor ${{ github.ref }} $(git symbolic-ref --short refs/remotes/origin/FETCH_HEAD)
           then
               # if the tag is in the history of the default remote branch
               BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD)
