@@ -15,7 +15,10 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            repo = await github.repos.get({context.repo.owner, context.repo.repo})
+            repo = await github.repos.get({
+                context.repo.owner,
+                context.repo.repo,
+            })
             return repo.data.default_branch
       -
         name: show default branch in script
