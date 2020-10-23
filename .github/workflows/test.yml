@@ -16,5 +16,6 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log(context.repo)
-            console.log(github.defaults())
+            console.log(github)
+            console.log(github.octokit.defaults())
 
