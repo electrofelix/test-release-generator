@@ -33,13 +33,12 @@ jobs:
           # limit list to next tag if any
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || true)
 
-          git branch -a
-          echo ${DEFAULT_BRANCH}
           # to ensure that releases continue to get 'x commits since release'
           # need to pass the branch name in addition to the tag to the create
           # release. Work out which branch the current tag is on
           #
-          if git merge-base --is-ancestor ${{ github.ref }} $(git symbolic-ref --short refs/remotes/origin/${DEFAULT_BRANCH})
+          git fetch origin HEAD
+          if git merge-base --is-ancestor ${{ github.ref }} $(git symbolic-ref --short refs/remotes/origin/HEAD)
           then
               # if the tag is in the history of the default remote branch
               BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD)
@@ -52,8 +51,6 @@ jobs:
           # set outputs for usage
           echo ::set-output name=previous_version::${LAST_TAG}
           echo ::set-output name=release_branch::${BRANCH}
-        env:
-          DEFAULT_BRANCH: $default-branch
       -
         name: Cache Github API requests
         id: cache-changelog-api-requests
